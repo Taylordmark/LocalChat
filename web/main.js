@@ -28,10 +28,10 @@ function stopSpeaking() {
 function toggleSpeak(text, button) {
     if (!isSpeaking) {
         speak(text);
-        button.textContent = "⏸ Pause";
+        button.textContent = "Pause";
     } else {
         stopSpeaking();
-        button.textContent = "▶️ Play";
+        button.textContent = "Play";
     }
 }
 
@@ -80,7 +80,7 @@ function renderMarkdown(text) {
     html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
 
     // Simple bullet lists: "- "
-    html = html.replace(/(^|\n)- (.+)/g, "$1• $2");
+    html = html.replace(/(^|\n)- (.+)/g, "$1* $2");
 
     // Line breaks
     html = html.replace(/\n/g, "<br>");
@@ -114,12 +114,6 @@ function saveMessage(role, text, model = null) {
 
 function saveConversations() {
     localStorage.setItem("conversations", JSON.stringify(conversations));
-    // Hook for future server-side sync:
-    // fetch("/api/conversations", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(conversations)
-    // }).catch(() => {});
 }
 
 function loadChat(id) {
@@ -146,7 +140,7 @@ function renderHistory() {
             const li = document.createElement("li");
             const first = conversations[id][0]?.text || "New conversation";
             li.innerHTML = `
-                <div class="history-title">${first.slice(0, 40)}${first.length > 40 ? "…" : ""}</div>
+                <div class="history-title">${first.slice(0, 40)}${first.length > 40 ? "..." : ""}</div>
                 <div class="history-model">${conversations[id][0]?.model || ""}</div>
             `;
 
@@ -240,12 +234,6 @@ function addMessageToUI(role, text, save = true, model = null) {
 
         const meta = document.createElement("div");
         meta.className = "message-meta";
-        //if (model) {
-        //    const badge = document.createElement("span");
-        //    badge.className = "model-badge";
-        //    badge.textContent = model;
-        //    meta.appendChild(badge);
-        //}
 
         div.appendChild(content);
         div.appendChild(meta);
@@ -298,11 +286,6 @@ document.getElementById("send").onclick = async () => {
 
     const meta = document.createElement("div");
     meta.className = "message-meta";
-    //const badge = document.createElement("span");
-    //badge.className = "model-badge";
-    //badge.textContent = model;
-    //meta.appendChild(badge);
-    //botDiv.appendChild(meta);
 
     chat.appendChild(botDiv);
 
@@ -333,7 +316,7 @@ document.getElementById("send").onclick = async () => {
                             speak(botMessage);
                         } else {
                             const playBtn = document.createElement("button");
-                            playBtn.textContent = "▶️ Play";
+                            playBtn.textContent = "Play";
                             playBtn.className = "tts-play";
                             playBtn.onclick = () => toggleSpeak(botMessage, playBtn);
                             meta.appendChild(playBtn);

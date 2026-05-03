@@ -1,1 +1,18 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+
+# Visual Studio / IDEs
 .vs/
+.idea/
+.vscode/
+
+# Frontend dependencies (if any)
+node_modules/
+
+# OS files
+.DS_Store

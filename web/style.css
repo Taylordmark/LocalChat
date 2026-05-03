@@ -292,11 +292,13 @@ select {
         transform: translateY(0);
     }
 }
+
 #history li.active {
     background: var(--accent);
     color: #000;
     font-weight: 600;
 }
+
 button:disabled {
     opacity: 0.4;
     cursor: not-allowed;

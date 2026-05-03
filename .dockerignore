@@ -1,8 +1,0 @@
-.vs
-.git
-.gitignore
-Dockerfile
-README.md
-*.md
-*.log
-*.tmp
