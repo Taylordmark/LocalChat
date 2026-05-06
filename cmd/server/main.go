@@ -4,8 +4,8 @@ import (
     "log"
     "net/http"
 
-    "mychatapp/internal/config"
-    "mychatapp/internal/server"
+    "localchat/internal/config"
+    "localchat/internal/server"
 )
 
 func main() {
