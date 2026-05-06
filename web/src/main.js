@@ -345,13 +345,14 @@ document.getElementById("send").onclick = async () => {
                 try {
                     const json = JSON.parse(line);
 
-                    if (json.response) {
-                        botMessage += json.response;
+                    if (json.message && json.message.content) {
+                        botMessage += json.message.content;
                         content.innerHTML = renderMarkdown(botMessage);
                         chat.scrollTop = chat.scrollHeight;
                     }
 
-                    if (json.done === true) {
+                    // ⭐ Handle end of stream
+                    if (json.done) {
                         hideTyping();
 
                         const auto = document.getElementById("tts-auto").checked;
@@ -368,7 +369,7 @@ document.getElementById("send").onclick = async () => {
 
                         saveMessage("bot", botMessage, model);
 
-                        // ⭐ Add assistant message to history
+                        // Add assistant message to history
                         chatHistory.push({
                             role: "assistant",
                             content: botMessage
