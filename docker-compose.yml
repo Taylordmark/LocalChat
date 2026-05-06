@@ -6,11 +6,14 @@ services:
       context: .
       dockerfile: backend.Dockerfile
     container_name: localchat-backend
+    ports:
+      - "8080:8080"
     networks:
       - llm-net
     environment:
       - OLLAMA_HOST=http://ollama:11434
     restart: unless-stopped
+
 
   frontend:
     build:
