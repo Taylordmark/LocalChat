@@ -1,8 +1,8 @@
 package handlers
 
 import (
-    "mychatapp/internal/config"
-    "mychatapp/internal/ollama"
+    "localchat/internal/config"
+    "localchat/internal/ollama"
     "encoding/json"
     "net/http"
 )
