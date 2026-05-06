@@ -333,6 +333,11 @@ document.getElementById("send").onclick = async () => {
 
     chat.appendChild(botDiv);
 
+    document.getElementById("sidebar-toggle").onclick = () => {
+        document.getElementById("sidebar").classList.toggle("collapsed");
+    };
+
+
     try {
         while (true) {
             const { value, done } = await reader.read();

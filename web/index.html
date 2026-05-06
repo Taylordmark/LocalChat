@@ -7,7 +7,9 @@
 <body>
 
     <div id="app">
-        <div id="sidebar">
+
+        <!-- ⭐ Sidebar (collapsible on mobile) -->
+        <div id="sidebar" class="collapsed">
             <h2>Conversations</h2>
             <ul id="history"></ul>
             <button id="new-chat">+ New Chat</button>
@@ -15,6 +17,10 @@
             <button id="delete-chat" class="sidebar-action">Delete Chat</button>
         </div>
 
+        <!-- ⭐ Sidebar toggle button (mobile only) -->
+        <button id="sidebar-toggle" class="mobile-only">☰</button>
+
+        <!-- ⭐ Main content fills full height -->
         <div id="main">
 
             <div id="topbar">
