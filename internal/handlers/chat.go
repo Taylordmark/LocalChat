@@ -25,3 +25,7 @@ func Chat(cfg config.Config) http.HandlerFunc {
         ollama.StreamGenerate(cfg.OllamaHost, req.Model, req.Prompt, w)
     }
 }
+
+if req.Model == "" {
+    req.Model = "llama3:8b"
+}

@@ -11,7 +11,7 @@ async function loadModels() {
     const data = await res.json();
 
     const select = document.getElementById("model");
-    select.innerHTML = ""; // clear existing
+    select.innerHTML = "";
 
     data.models.forEach(m => {
         const opt = document.createElement("option");
@@ -19,7 +19,19 @@ async function loadModels() {
         opt.textContent = m.name;
         select.appendChild(opt);
     });
+
+    // ⭐ Default to llama3:8b *if it exists*
+    const preferred = "llama3:8b";
+    const availableModels = data.models.map(m => m.name);
+
+    if (availableModels.includes(preferred)) {
+        select.value = preferred;
+    } else if (availableModels.length > 0) {
+        // fallback to first available model
+        select.value = availableModels[0];
+    }
 }
+
 
 loadModels();
 
