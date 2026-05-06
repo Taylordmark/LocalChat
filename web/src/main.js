@@ -282,6 +282,9 @@ function addMessageToUI(role, text, save = true, model = null) {
 // ==========================================================
 // MAIN CHAT LOGIC
 // ==========================================================
+
+let chatHistory = []; // ⭐ Add this at the top of main.js
+
 document.getElementById("send").onclick = async () => {
     const model = document.getElementById("model").value;
     const input = document.getElementById("input");
@@ -290,16 +293,26 @@ document.getElementById("send").onclick = async () => {
 
     addMessageToUI("user", prompt);
 
+    // ⭐ Add user message to history
+    chatHistory.push({
+        role: "user",
+        content: prompt
+    });
+
     input.value = "";
     input.blur();
     input.focus();
 
     showTyping();
 
+    // ⭐ Send full history instead of single prompt
     const res = await fetch(`${apiBase}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model, prompt })
+        body: JSON.stringify({
+            model,
+            messages: chatHistory
+        })
     });
 
     const reader = res.body.getReader();
@@ -354,6 +367,12 @@ document.getElementById("send").onclick = async () => {
                         }
 
                         saveMessage("bot", botMessage, model);
+
+                        // ⭐ Add assistant message to history
+                        chatHistory.push({
+                            role: "assistant",
+                            content: botMessage
+                        });
                     }
 
                 } catch (e) {
@@ -365,6 +384,7 @@ document.getElementById("send").onclick = async () => {
         hideTyping();
     }
 };
+
 
 
 // ==========================================================

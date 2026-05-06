@@ -9,6 +9,17 @@ import (
     "net/http"
 )
 
+type Message struct {
+    Role    string `json:"role"`
+    Content string `json:"content"`
+}
+
+type ChatRequest struct {
+    Model    string    `json:"model"`
+    Messages []Message `json:"messages"`
+}
+
+
 // StreamGenerate sends a streaming request to Ollama and writes streamed chunks to w.
 func StreamGenerate(host, model, prompt string, w io.Writer) {
     body, _ := json.Marshal(GenerateRequest{
@@ -32,4 +43,17 @@ func StreamGenerate(host, model, prompt string, w io.Writer) {
         w.Write(scanner.Bytes())
         w.Write([]byte("\n"))
     }
+}
+
+func (c *Client) ChatStream(ctx context.Context, req ChatRequest) (io.ReadCloser, error) {
+    body, _ := json.Marshal(req)
+    httpReq, _ := http.NewRequestWithContext(ctx, "POST", c.baseURL+"/api/chat", bytes.NewReader(body))
+    httpReq.Header.Set("Content-Type", "application/json")
+
+    resp, err := c.http.Do(httpReq)
+    if err != nil {
+        return nil, err
+    }
+
+    return resp.Body, nil
 }
