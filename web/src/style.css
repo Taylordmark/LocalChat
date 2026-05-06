@@ -203,7 +203,7 @@ select {
 #chat {
     background: var(--chat-bg);
     padding: 20px;
-    flex: 1; /* ⭐ Fill vertical space */
+    flex: .8; 
     overflow-y: auto;
     border-radius: 12px;
     border: 1px solid #1c1c1f;
