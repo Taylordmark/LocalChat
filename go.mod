@@ -1,4 +1,4 @@
-module mychatapp
+module localchat
 
 go 1.26.1
 
