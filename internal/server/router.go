@@ -25,6 +25,8 @@ func NewRouter(cfg config.Config) http.Handler {
     // 2. Specific API Routes
     r.Get("/health", handlers.Health)
     r.Post("/api/chat", handlers.Chat(cfg))
+    r.Get("/api/models", handlers.ListModels(cfg))
+
 
     // 3. Static File Serving
     // We use a helper to ensure Chi handles the sub-pathing correctly

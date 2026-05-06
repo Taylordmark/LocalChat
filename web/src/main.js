@@ -6,6 +6,23 @@ let isSpeaking = false;
 
 const apiBase = import.meta.env.VITE_API_BASE;
 
+async function loadModels() {
+    const res = await fetch(`${apiBase}/api/models`);
+    const data = await res.json();
+
+    const select = document.getElementById("model");
+    select.innerHTML = ""; // clear existing
+
+    data.models.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.name;
+        opt.textContent = m.name;
+        select.appendChild(opt);
+    });
+}
+
+loadModels();
+
 function speak(text) {
     stopSpeaking();
     currentUtterance = new SpeechSynthesisUtterance(text);
