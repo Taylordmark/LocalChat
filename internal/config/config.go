@@ -17,7 +17,7 @@ func Load() Config {
 
     ollama := os.Getenv("OLLAMA_HOST")
     if ollama == "" {
-        ollama = "http://127.0.0.1:11434"
+        ollama = "http://ollama:11434"
     }
 
     return Config{

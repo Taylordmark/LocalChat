@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: localchat-backend
+    networks:
+      - llm-net
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: localchat-frontend
+    networks:
+      - llm-net
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+networks:
+  llm-net:
+    external: true

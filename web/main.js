@@ -4,6 +4,8 @@
 let currentUtterance = null;
 let isSpeaking = false;
 
+const apiBase = import.meta.env.VITE_API_BASE;
+
 function speak(text) {
     stopSpeaking();
     currentUtterance = new SpeechSynthesisUtterance(text);
