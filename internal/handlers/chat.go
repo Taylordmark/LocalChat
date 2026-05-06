@@ -20,14 +20,12 @@ func Chat(cfg config.Config) http.HandlerFunc {
             return
         }
 
-        // Default model if none provided
         if req.Model == "" {
             req.Model = "llama3:8b"
         }
 
         w.Header().Set("Content-Type", "text/event-stream")
 
-        // ⭐ NEW: Use ChatStream instead of StreamGenerate
         stream, err := ollama.ChatStream(cfg.OllamaHost, req.Model, req.Messages)
         if err != nil {
             http.Error(w, "failed to connect to ollama", http.StatusInternalServerError)
@@ -35,7 +33,6 @@ func Chat(cfg config.Config) http.HandlerFunc {
         }
         defer stream.Close()
 
-        // ⭐ Stream the response back to the client
         buf := make([]byte, 4096)
         for {
             n, err := stream.Read(buf)
