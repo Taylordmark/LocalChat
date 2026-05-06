@@ -1,3 +1,19 @@
+package server
+
+import (
+    "net/http"
+    "os"
+    "path/filepath"
+    "strings"
+
+    "github.com/go-chi/chi/v5"
+
+    "localchat/internal/config"
+    "localchat/internal/handlers"
+    "localchat/internal/middleware"
+)
+
+
 func NewRouter(cfg config.Config) http.Handler {
     r := chi.NewRouter()
 
