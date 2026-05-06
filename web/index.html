@@ -6,51 +6,56 @@
 </head>
 <body>
 
-    <div id="sidebar">
-        <h2>Conversations</h2>
-        <ul id="history"></ul>
-        <button id="new-chat">+ New Chat</button>
-        <button id="export-chat" class="sidebar-action">📤 Export Chat</button>
-        <button id="delete-chat" class="sidebar-action">🗑️ Delete Chat</button>
-    </div>
-
-    <div id="main">
-
-        <div id="topbar">
-            <div class="brand">
-                <div class="logo"></div>
-                <span>Ollama Chat</span>
-            </div>
-
-            <div class="toggles">
-                <label class="switch">
-                    <input type="checkbox" id="theme-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+    <div id="app">
+        <div id="sidebar">
+            <h2>Conversations</h2>
+            <ul id="history"></ul>
+            <button id="new-chat">+ New Chat</button>
+            <button id="export-chat" class="sidebar-action">Export Chat</button>
+            <button id="delete-chat" class="sidebar-action">Delete Chat</button>
         </div>
 
-        <div id="controls">
-            <select id="model"></select>
+        <div id="main">
 
-            <div id="tts-controls">
-                <label>
-                    <input type="checkbox" id="tts-auto">
-                    Auto‑read
-                </label>
+            <div id="topbar">
+                <div class="brand">
+                    <div class="logo"></div>
+                    <span>Ollama Chat</span>
+                </div>
+
+                <div class="toggles">
+                    <label class="switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
+
+            <div id="controls">
+                <select id="model"></select>
+
+                <div id="tts-controls">
+                    <label>
+                        <input type="checkbox" id="tts-auto">
+                        Auto‑read
+                    </label>
+                </div>
+            </div>
+
+            <div id="chat"></div>
+
+            <div id="typing-indicator" class="hidden">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+            <div id="input-bar">
+                <textarea id="input" placeholder="Type your message..."></textarea>
+                <button id="send">Send</button>
+            </div>
+
         </div>
-
-        <div id="chat"></div>
-
-        <div id="typing-indicator" class="hidden">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-
-        <textarea id="input" placeholder="Type your message..."></textarea>
-        <button id="send">Send</button>
 
     </div>
 
