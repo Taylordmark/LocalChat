@@ -174,5 +174,3 @@ This is a fully offline, self‑contained LLM chat system.
 6. Sidebar stays outside the main flex column  
 
 ---
-
-If you want, I can also generate a version of this summary formatted as a README with sections, headings, and installation instructions.

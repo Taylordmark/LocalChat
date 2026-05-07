@@ -109,6 +109,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-height: 0;
     overflow: hidden;
     padding: 25px;
 }
@@ -308,10 +309,11 @@ select {
 
     #main {
         height: 100dvh;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        padding: 8px;      /* FIXED: reduced padding */
+        padding: 8px; /* FIXED: reduced padding */
     }
 
     #chat {
