@@ -20,15 +20,19 @@
 }
 
 /* GLOBAL LAYOUT -------------------------------------------------- */
+html, body {
+    height: 100%;
+}
+
 body {
     background: var(--bg);
     color: var(--text);
     font-family: "Inter", "Segoe UI", sans-serif;
     margin: 0;
     padding: 0;
-    height: 100%;          /* FIXED: no 100vh */
+    height: 100%;
     display: flex;
-    overflow: hidden;
+    overflow: hidden; /* page never scrolls */
 }
 
 #app {
@@ -50,11 +54,11 @@ body {
     transition: transform 0.25s ease;
 }
 
-#sidebar h2 {
-    margin-top: 0;
-    font-size: 20px;
-    color: var(--accent);
-}
+    #sidebar h2 {
+        margin-top: 0;
+        font-size: 20px;
+        color: var(--accent);
+    }
 
 #history {
     list-style: none;
@@ -64,17 +68,17 @@ body {
     overflow-y: auto;
 }
 
-#history li {
-    padding: 10px;
-    margin-bottom: 8px;
-    background: #1b1b1d;
-    border-radius: 8px;
-    cursor: pointer;
-}
+    #history li {
+        padding: 10px;
+        margin-bottom: 8px;
+        background: #1b1b1d;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
-#history li:hover {
-    background: #222225;
-}
+        #history li:hover {
+            background: #222225;
+        }
 
 #new-chat {
     background: var(--accent);
@@ -109,8 +113,8 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 0;
-    overflow: hidden;
+    min-height: 0; /* REQUIRED for scroll */
+    overflow: hidden; /* page does not scroll */
     padding: 25px;
 }
 
@@ -148,9 +152,9 @@ body {
     height: 24px;
 }
 
-.switch input {
-    display: none;
-}
+    .switch input {
+        display: none;
+    }
 
 .slider {
     position: absolute;
@@ -164,25 +168,25 @@ body {
     transition: .3s;
 }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background: white;
-    border-radius: 50%;
-    transition: .3s;
-}
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background: white;
+        border-radius: 50%;
+        transition: .3s;
+    }
 
 input:checked + .slider {
     background: var(--accent);
 }
 
-input:checked + .slider:before {
-    transform: translateX(22px);
-}
+    input:checked + .slider:before {
+        transform: translateX(22px);
+    }
 
 /* CONTROLS -------------------------------------------------- */
 #controls {
@@ -204,9 +208,9 @@ select {
 #chat {
     background: var(--chat-bg);
     padding: 20px;
-    flex: 1;               /* FIXED: no .8 */
-    min-height: 0;         /* FIXED: prevents overflow */
-    overflow-y: auto;
+    flex: 1; /* fills remaining space */
+    min-height: 0; /* REQUIRED for scroll */
+    overflow-y: auto; /* independent scroll */
     border-radius: 12px;
     border: 1px solid #1c1c1f;
     display: flex;
@@ -255,21 +259,30 @@ select {
     animation: blink 1.4s infinite both;
 }
 
-.dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
+    .dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
 
-.dot:nth-child(3) {
-    animation-delay: 0.4s;
-}
+    .dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
 
 @keyframes blink {
-    0% { opacity: .2; }
-    20% { opacity: 1; }
-    100% { opacity: .2; }
+    0% {
+        opacity: .2;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .2;
+    }
 }
 
 /* INPUT BAR -------------------------------------------------- */
+/* Desktop: stays at bottom via flex layout */
 #input-bar {
     display: flex;
     gap: 10px;
@@ -300,27 +313,27 @@ select {
     transition: background 0.2s ease;
 }
 
-#send:hover {
-    background: #00a868;
-}
+    #send:hover {
+        background: #00a868;
+    }
 
 /* MOBILE BREAKPOINT ---------------------------------------- */
 @media (max-width: 800px) {
 
     #main {
-        height: 100dvh;
-        min-height: 0;
+        height: 100dvh; /* dynamic viewport (keyboard-aware) */
+        min-height: 0; /* REQUIRED */
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        padding: 8px; /* FIXED: reduced padding */
+        padding: 8px;
     }
 
     #chat {
         flex: 1;
         min-height: 0;
         overflow-y: auto;
-        padding-bottom: 70px; /* FIXED: matches input bar height */
+        padding-bottom: 70px; /* space for fixed input bar */
     }
 
     #input-bar {
@@ -349,8 +362,15 @@ select {
 
 /* ANIMATIONS ---------------------------------------------- */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #history li.active {
@@ -378,15 +398,15 @@ button:disabled {
     text-align: left;
 }
 
-.sidebar-action:hover {
-    background: #262629;
-    border-color: var(--accent);
-}
+    .sidebar-action:hover {
+        background: #262629;
+        border-color: var(--accent);
+    }
 
-.sidebar-action:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
+    .sidebar-action:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
 
 .history-model {
     font-size: 11px;
