@@ -171,6 +171,7 @@ let conversations = JSON.parse(localStorage.getItem("conversations") || "{}");
 let currentChatId = null;
 
 function createNewChat() {
+    chatHistory = [];
     currentChatId = "chat_" + Date.now();
     conversations[currentChatId] = [];
     saveConversations();
@@ -196,6 +197,12 @@ function loadChat(id) {
     clearChatUI();
 
     const msgs = conversations[id] || [];
+
+    chatHistory = msgs.map(m => ({
+        role: m.role,
+        content: m.text
+    }));
+
     msgs.forEach(msg => {
         addMessageToUI(msg.role, msg.text, false, msg.model);
     });
@@ -204,6 +211,7 @@ function loadChat(id) {
     setActionButtonsEnabled(true);
     highlightActiveInHistory();
 }
+
 
 function renderHistory() {
     const history = document.getElementById("history");
