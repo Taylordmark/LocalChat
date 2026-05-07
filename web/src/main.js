@@ -6,6 +6,7 @@ let isSpeaking = false;
 
 const apiBase = import.meta.env.VITE_API_BASE;
 
+// Load models (unchanged)
 async function loadModels() {
     const res = await fetch(`${apiBase}/api/models`);
     const data = await res.json();
@@ -20,35 +21,77 @@ async function loadModels() {
         select.appendChild(opt);
     });
 
-    // ⭐ Default to llama3:8b *if it exists*
     const preferred = "llama3:8b";
     const availableModels = data.models.map(m => m.name);
 
     if (availableModels.includes(preferred)) {
         select.value = preferred;
     } else if (availableModels.length > 0) {
-        // fallback to first available model
         select.value = availableModels[0];
     }
 }
 
-
 loadModels();
 
+
+// ==========================================================
+// VOICE LOADING
+// ==========================================================
+let availableVoices = [];
+let voicesLoaded = false;
+
+function loadVoices() {
+    availableVoices = speechSynthesis.getVoices();
+    if (availableVoices.length > 0) {
+        voicesLoaded = true;
+    }
+}
+
+// Load immediately if available
+loadVoices();
+
+// Load when browser fires event
+speechSynthesis.onvoiceschanged = loadVoices;
+
+
+// ==========================================================
+// SPEAK FUNCTION WITH CUSTOM VOICE
+// ==========================================================
 function speak(text) {
     stopSpeaking();
-    currentUtterance = new SpeechSynthesisUtterance(text);
-    currentUtterance.rate = 1.0;
-    currentUtterance.pitch = 1.0;
 
-    currentUtterance.onend = () => {
+    const utter = new SpeechSynthesisUtterance(text);
+
+    // ⭐ CHANGE THIS to the voice you want
+    const preferredVoiceName = "Google UK English Male";
+
+    if (!voicesLoaded) {
+        loadVoices();
+    }
+
+    const selected = availableVoices.find(v => v.name === preferredVoiceName);
+
+    if (selected) {
+        utter.voice = selected;
+    } else {
+        console.warn("Preferred voice not found. Using default.");
+    }
+
+    utter.rate = 1.0;
+    utter.pitch = 1.0;
+
+    utter.onend = () => {
         isSpeaking = false;
     };
 
-    speechSynthesis.speak(currentUtterance);
+    speechSynthesis.speak(utter);
     isSpeaking = true;
 }
 
+
+// ==========================================================
+// STOP + TOGGLE
+// ==========================================================
 function stopSpeaking() {
     if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
@@ -65,6 +108,7 @@ function toggleSpeak(text, button) {
         button.textContent = "Play";
     }
 }
+
 
 
 // ==========================================================
