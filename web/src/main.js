@@ -77,8 +77,8 @@ function speak(text) {
         console.warn("Preferred voice not found. Using default.");
     }
 
-    utter.rate = 1.0;
-    utter.pitch = 1.0;
+    utter.rate = 1.8;
+    utter.pitch = 1.3;
 
     utter.onend = () => {
         isSpeaking = false;
