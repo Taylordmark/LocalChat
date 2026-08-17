@@ -10,6 +10,9 @@ services:
       - llm-net
     environment:
       - OLLAMA_HOST=http://ollama:11434
+      - LOCALCHAT_DB_PATH=/data/localchat.db
+    volumes:
+      - localchat-data:/data
     restart: unless-stopped
 
 
@@ -27,3 +30,6 @@ services:
 networks:
   llm-net:
     external: true
+
+volumes:
+  localchat-data:

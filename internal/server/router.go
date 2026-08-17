@@ -8,13 +8,20 @@ import (
 
     "github.com/go-chi/chi/v5"
 
+    "localchat/internal/apiauth"
     "localchat/internal/config"
     "localchat/internal/handlers"
     "localchat/internal/middleware"
 )
 
 
-func NewRouter(cfg config.Config) http.Handler {
+// NewRouter wires the two independent surfaces this server exposes:
+//   - the original personal chat UI's endpoints (/api/chat, /api/models,
+//     /health, and the static web/ assets) — unauthenticated, local-only,
+//     unchanged from before
+//   - the external Conversations API (/api/v1/...) — API-key gated, meant
+//     for any external system to integrate against
+func NewRouter(cfg config.Config, api *handlers.ConversationsAPI) http.Handler {
     r := chi.NewRouter()
 
     // 1. Middlewares first
@@ -26,6 +33,37 @@ func NewRouter(cfg config.Config) http.Handler {
     r.Get("/health", handlers.Health)
     r.Post("/api/chat", handlers.Chat(cfg))
     r.Get("/api/models", handlers.ListModels(cfg))
+
+    // 2b. Conversations API — API-key gated, see internal/apiauth.
+    r.Route("/api/v1", func(v1 chi.Router) {
+        v1.Use(apiauth.Middleware(api.Store))
+
+        v1.Get("/whoami", api.WhoAmI)
+
+        v1.Route("/conversations", func(cr chi.Router) {
+            cr.Post("/", api.CreateConversation)
+            cr.Get("/", api.ListConversations)
+            cr.Route("/{id}", func(cir chi.Router) {
+                cir.Get("/", api.GetConversation)
+                cir.Route("/messages", func(mr chi.Router) {
+                    mr.Post("/", api.PostMessage)
+                    mr.Get("/", api.ListMessages)
+                })
+            })
+        })
+
+        v1.Route("/channels", func(cr chi.Router) {
+            cr.Post("/", api.CreateChannel)
+            cr.Get("/", api.ListChannels)
+            cr.Delete("/{id}", api.DeleteChannel)
+        })
+
+        v1.Route("/keys", func(cr chi.Router) {
+            cr.Post("/", api.CreateKey)
+            cr.Get("/", api.ListKeys)
+            cr.Delete("/{id}", api.RevokeKey)
+        })
+    })
 
 
     // 3. Static File Serving

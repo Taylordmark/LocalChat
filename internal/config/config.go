@@ -7,6 +7,7 @@ import (
 type Config struct {
     ServerAddr string
     OllamaHost string
+    DBPath     string
 }
 
 func Load() Config {
@@ -20,8 +21,14 @@ func Load() Config {
         ollama = "http://ollama:11434"
     }
 
+    dbPath := os.Getenv("LOCALCHAT_DB_PATH")
+    if dbPath == "" {
+        dbPath = "localchat.db"
+    }
+
     return Config{
         ServerAddr: addr,
         OllamaHost: ollama,
+        DBPath:     dbPath,
     }
 }

@@ -10,7 +10,7 @@
 
         <!-- ⭐ Sidebar (collapsible on mobile) -->
         <div id="sidebar" class="collapsed">
-            <h2>Conversations</h2>
+            <h2>Assistant</h2>
             <ul id="history"></ul>
             <button id="new-chat">+ New Chat</button>
             <button id="export-chat" class="sidebar-action">Export Chat</button>
@@ -30,6 +30,7 @@
                 </div>
 
                 <div class="toggles">
+                    <button id="view-conversations" class="view-switch">Conversations</button>
                     <label class="switch">
                         <input type="checkbox" id="theme-toggle">
                         <span class="slider"></span>
@@ -63,9 +64,83 @@
 
         </div>
 
+        <!-- Conversations API view — hidden until "Conversations" is clicked -->
+        <div id="conversations-view" class="hidden">
+            <div id="conv-topbar">
+                <div class="brand">
+                    <div class="logo"></div>
+                    <span>Conversations</span>
+                </div>
+                <div class="toggles">
+                    <button id="view-assistant" class="view-switch">Assistant</button>
+                    <button id="conv-settings-open" class="view-switch">Settings</button>
+                </div>
+            </div>
+
+            <div id="conv-body">
+                <div id="conv-list-pane">
+                    <button id="conv-new">+ New Conversation</button>
+                    <ul id="conv-list"></ul>
+                </div>
+
+                <div id="conv-thread-pane">
+                    <div id="conv-thread-header"></div>
+                    <div id="conv-thread"></div>
+                    <div id="conv-reply-bar">
+                        <input id="conv-reply-role" placeholder="role (default: agent)" />
+                        <textarea id="conv-reply-content" placeholder="Type a reply — sends the message and fires any bound channel..."></textarea>
+                        <button id="conv-reply-send">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Settings modal: API key, channels, key management -->
+    <div id="conv-settings-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Conversations API Settings</h3>
+                <button id="conv-settings-close" class="modal-close">&times;</button>
+            </div>
+
+            <section>
+                <h4>API Key</h4>
+                <p class="hint">The key this browser uses to call the Conversations API. Paste the bootstrap key printed in the server log on first run, or mint a named key below once you have one.</p>
+                <div class="form-row">
+                    <input id="conv-api-key-input" placeholder="lc_..." />
+                    <button id="conv-api-key-save">Save</button>
+                </div>
+                <div id="conv-whoami" class="hint"></div>
+            </section>
+
+            <section>
+                <h4>API Keys</h4>
+                <div class="form-row">
+                    <input id="conv-key-name" placeholder="key name, e.g. my-integration" />
+                    <button id="conv-key-create">Create</button>
+                </div>
+                <div id="conv-new-key-secret" class="hidden secret-box"></div>
+                <ul id="conv-key-list" class="settings-list"></ul>
+            </section>
+
+            <section>
+                <h4>Channels</h4>
+                <p class="hint">A webhook channel delivers every new message to a URL. Scope it to the open conversation, or leave conversation blank for a global channel.</p>
+                <div class="form-row">
+                    <input id="conv-channel-url" placeholder="https://example.com/hook" />
+                    <input id="conv-channel-secret" placeholder="signing secret (optional)" />
+                    <label class="hint"><input type="checkbox" id="conv-channel-scoped" checked /> scope to open conversation</label>
+                    <button id="conv-channel-create">Add</button>
+                </div>
+                <ul id="conv-channel-list" class="settings-list"></ul>
+            </section>
+        </div>
     </div>
 
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/conversations.js"></script>
 
 </body>
 </html>
